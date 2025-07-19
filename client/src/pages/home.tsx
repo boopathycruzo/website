@@ -39,14 +39,10 @@ const contactFormSchema = insertInquirySchema.extend({
   email: z.string().email("Please enter a valid email address").optional().or(z.literal("")),
 });
 
-const bookingFormSchema = insertBookingSchema;
-
 type ContactFormData = z.infer<typeof contactFormSchema>;
-type BookingFormData = z.infer<typeof bookingFormSchema>;
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
   const { toast } = useToast();
 
   const contactForm = useForm<ContactFormData>({
@@ -61,16 +57,7 @@ export default function Home() {
     },
   });
 
-  const bookingForm = useForm<BookingFormData>({
-    resolver: zodResolver(bookingFormSchema),
-    defaultValues: {
-      name: "",
-      phone: "",
-      serviceType: "",
-      preferredDate: "",
-      location: "",
-    },
-  });
+
 
   const contactMutation = useMutation({
     mutationFn: async (data: ContactFormData) => {
@@ -94,35 +81,8 @@ export default function Home() {
     },
   });
 
-  const bookingMutation = useMutation({
-    mutationFn: async (data: BookingFormData) => {
-      const response = await apiRequest("POST", "/api/bookings", data);
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Booking Requested!",
-        description: "We'll call you to confirm the details.",
-      });
-      bookingForm.reset();
-      setShowBookingModal(false);
-      queryClient.invalidateQueries({ queryKey: ["/api/bookings"] });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to submit booking. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
   const onContactSubmit = (data: ContactFormData) => {
     contactMutation.mutate(data);
-  };
-
-  const onBookingSubmit = (data: BookingFormData) => {
-    bookingMutation.mutate(data);
   };
 
   const whatsappNumber = "+919876543210";
@@ -135,8 +95,10 @@ export default function Home() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="text-2xl font-bold text-primary">
-                <Car className="inline-block w-8 h-8 mr-2" />
+              <div className="text-2xl font-bold text-primary flex items-center">
+                <div className="w-10 h-10 mr-3 bg-gradient-to-br from-lime-400 to-green-500 rounded-lg flex items-center justify-center">
+                  <span className="text-black font-bold text-xl">C</span>
+                </div>
                 Cruzo
               </div>
             </div>
@@ -185,151 +147,47 @@ export default function Home() {
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                Premium Car Wash at Your 
-                <span className="text-accent"> Doorstep</span>
-              </h1>
-              <p className="text-xl md:text-2xl mb-4 text-blue-100">We bring the car spa to you</p>
-              <p className="text-lg mb-8 text-blue-100 leading-relaxed max-w-2xl">
-                We get it! You're juggling work, family, and city traffic. The last thing you want is to drive to a service center, wait in line, or chase after your apartment cleaner who doesn't show up half the time.
-              </p>
-              <p className="text-lg mb-10 font-medium">
-                <span className="text-accent">Zero effort. No delays.</span> Just a spotless car—delivered to your doorstep.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button 
-                  size="lg" 
-                  className="bg-accent hover:bg-accent/90 text-lg px-8 py-4"
-                  onClick={() => setShowBookingModal(true)}
-                >
-                  <Calendar className="w-5 h-5 mr-2" />
-                  Book Slot
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="text-primary border-white bg-white hover:bg-gray-100 text-lg px-8 py-4"
-                  asChild
-                >
-                  <a href="#services">
-                    View Packages
-                  </a>
-                </Button>
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+              Premium Car Wash at Your 
+              <span className="text-accent"> Doorstep</span>
+            </h1>
+            <p className="text-xl md:text-2xl mb-4 text-blue-100">We bring the car spa to you</p>
+            <p className="text-lg mb-8 text-blue-100 leading-relaxed max-w-3xl mx-auto">
+              We get it! You're juggling work, family, and city traffic. The last thing you want is to drive to a service center, wait in line, or chase after your apartment cleaner who doesn't show up half the time.
+            </p>
+            <p className="text-lg mb-10 font-medium">
+              <span className="text-accent">Zero effort. No delays.</span> Just a spotless car—delivered to your doorstep.
+            </p>
+            
+            <div className="mb-8">
+              <div className="bg-accent text-white px-8 py-4 rounded-full text-2xl font-bold inline-block mb-4">
+                Premium Service: ₹1,599 <span className="text-lg line-through opacity-75 ml-2">₹2,599</span>
               </div>
+              <p className="text-blue-100 text-lg">Introductory Offer - Limited Time!</p>
             </div>
             
-            <div className="relative">
-              <Card className="bg-white/20 backdrop-blur-sm border-white/30">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-center text-white">Quick Booking</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Form {...bookingForm}>
-                    <form onSubmit={bookingForm.handleSubmit(onBookingSubmit)} className="space-y-4">
-                      <FormField
-                        control={bookingForm.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Full Name</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Your full name" 
-                                className="bg-white/90 text-gray-800" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={bookingForm.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Phone Number</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="+91 XXXXX XXXXX" 
-                                className="bg-white/90 text-gray-800" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={bookingForm.control}
-                        name="serviceType"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Service Type</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="bg-white/90 text-gray-800">
-                                  <SelectValue placeholder="Select service" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="basic">Basic Wash</SelectItem>
-                                <SelectItem value="premium">Premium Clean</SelectItem>
-                                <SelectItem value="detailing">Full Detailing</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={bookingForm.control}
-                        name="location"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Location</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Your address in Chennai" 
-                                className="bg-white/90 text-gray-800" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={bookingForm.control}
-                        name="preferredDate"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-white">Preferred Date</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="date" 
-                                className="bg-white/90 text-gray-800" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-secondary hover:bg-secondary/90" 
-                        disabled={bookingMutation.isPending}
-                      >
-                        {bookingMutation.isPending ? "Submitting..." : "Get Quote & Book"}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-              </Card>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                className="bg-accent hover:bg-accent/90 text-lg px-8 py-4"
+                asChild
+              >
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+                  <MessageSquare className="w-5 h-5 mr-2" />
+                  Book Now - ₹1,599
+                </a>
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-primary border-white bg-white hover:bg-gray-100 text-lg px-8 py-4"
+                asChild
+              >
+                <a href="#services">
+                  Learn More
+                </a>
+              </Button>
             </div>
           </div>
         </div>
@@ -400,92 +258,64 @@ export default function Home() {
       <section id="services" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Services & Packages</h2>
-            <p className="text-xl text-gray-600">Professional car cleaning services tailored to your needs</p>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Premium Service</h2>
+            <p className="text-xl text-gray-600">Professional doorstep car cleaning at an unbeatable price</p>
             <div className="mt-6 inline-flex items-center bg-accent text-white px-6 py-3 rounded-full text-lg font-semibold">
               <Star className="w-5 h-5 mr-2" />
-              10 to 40% OFF your first service
+              Introductory Offer - Limited Time!
             </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {[
-              {
-                name: "Basic Wash",
-                price: "₹299",
-                description: "Perfect for regular maintenance",
-                features: [
-                  "Exterior water wash",
-                  "Body soap cleaning",
-                  "Wheel & tire cleaning",
-                  "Basic drying",
-                  "Glass cleaning"
-                ],
-                color: "from-blue-500 to-primary",
-                buttonColor: "bg-primary hover:bg-primary/90"
-              },
-              {
-                name: "Premium Clean",
-                price: "₹599",
-                description: "Complete interior & exterior",
-                features: [
-                  "Everything in Basic Wash",
-                  "Interior vacuuming",
-                  "Dashboard & console cleaning",
-                  "Seat cleaning & conditioning",
-                  "Air freshener application"
-                ],
-                color: "from-secondary to-green-600",
-                buttonColor: "bg-secondary hover:bg-secondary/90",
-                popular: true
-              },
-              {
-                name: "Full Detailing",
-                price: "₹1299",
-                description: "Ultimate car spa experience",
-                features: [
-                  "Everything in Premium Clean",
-                  "Paint protection & waxing",
-                  "Engine bay cleaning",
-                  "Leather treatment",
-                  "Headlight restoration"
-                ],
-                color: "from-accent to-red-500",
-                buttonColor: "bg-accent hover:bg-accent/90"
-              }
-            ].map((pkg, index) => (
-              <Card key={index} className={`overflow-hidden hover:shadow-xl transition-shadow ${pkg.popular ? 'border-2 border-accent relative' : ''}`}>
-                {pkg.popular && (
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <span className="bg-accent text-white px-4 py-1 rounded-full text-sm font-semibold">POPULAR</span>
-                  </div>
-                )}
-                <div className={`bg-gradient-to-r ${pkg.color} text-white p-6 text-center`}>
-                  <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
-                  <div className="text-4xl font-bold mb-2">{pkg.price}</div>
-                  <p className="text-blue-100">{pkg.description}</p>
+          <div className="max-w-2xl mx-auto mb-12">
+            <Card className="overflow-hidden hover:shadow-xl transition-shadow border-2 border-accent relative">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <span className="bg-accent text-white px-6 py-2 rounded-full text-lg font-semibold">BEST VALUE</span>
+              </div>
+              <div className="bg-gradient-to-r from-secondary to-green-600 text-white p-8 text-center">
+                <h3 className="text-3xl font-bold mb-4">Premium Doorstep Service</h3>
+                <div className="mb-4">
+                  <span className="text-6xl font-bold">₹1,599</span>
+                  <span className="text-2xl line-through opacity-75 ml-4">₹2,599</span>
                 </div>
-                <CardContent className="p-6">
-                  <ul className="space-y-3 mb-8">
-                    {pkg.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center">
-                        <CheckCircle className="text-secondary w-5 h-5 mr-3 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button className={`w-full ${pkg.buttonColor}`}>
-                    Choose {pkg.name.split(' ')[0]}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+                <p className="text-xl text-green-100">Complete interior & exterior cleaning</p>
+              </div>
+              <CardContent className="p-8">
+                <ul className="space-y-4 mb-8">
+                  {[
+                    "Complete exterior wash with premium soap",
+                    "Interior deep vacuuming & sanitization",
+                    "Dashboard, console & door panel cleaning",
+                    "Seat cleaning & conditioning",
+                    "Glass cleaning (interior & exterior)",
+                    "Wheel & tire cleaning with tire shine",
+                    "Air freshener application",
+                    "Basic paint protection",
+                    "Professional drying with microfiber cloths"
+                  ].map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center">
+                      <CheckCircle className="text-secondary w-6 h-6 mr-4 flex-shrink-0" />
+                      <span className="text-lg">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button 
+                  className="w-full bg-secondary hover:bg-secondary/90 text-xl py-6"
+                  asChild
+                >
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+                    <MessageSquare className="w-6 h-6 mr-3" />
+                    Book Now for ₹1,599
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
           
           <div className="text-center">
-            <p className="text-lg text-gray-600 mb-6">Need something specific? We offer custom packages and monthly plans.</p>
-            <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
-              Request Custom Package
+            <p className="text-lg text-gray-600 mb-6">Questions about our service? Want to discuss custom requirements?</p>
+            <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white text-lg px-8 py-3">
+              <Phone className="w-5 h-5 mr-2" />
+              Call Us for Details
             </Button>
           </div>
         </div>

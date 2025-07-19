@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack web application for Cruzo, a premium doorstep car wash service in Chennai. The application features a modern React frontend with a Node.js/Express backend, built using TypeScript throughout. It allows customers to inquire about services and book car wash appointments through an intuitive web interface.
+This is a full-stack web application for Cruzo, a premium doorstep car wash service in Chennai. The application features a modern React frontend with a Node.js/Express backend, built using TypeScript throughout. It allows customers to inquire about services and book car wash appointments through an intuitive web interface. Currently focused on promoting a single premium service at ₹1,599 (introductory offer from ₹2,599) with WhatsApp booking integration.
 
 ## User Preferences
 
