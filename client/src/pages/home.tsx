@@ -329,11 +329,13 @@ export default function Home() {
             <p className="text-xl text-gray-600">Simple steps to get your car cleaned professionally</p>
           </div>
           
-          <div className="grid md:grid-cols-5 gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
             {[
               { icon: Phone, title: "Call or WhatsApp", description: "Contact us to book your preferred time slot", color: "bg-primary" },
               { icon: Calendar, title: "Choose Package", description: "Select your service package and time slot", color: "bg-secondary" },
-              { icon: Users, title: "Team Arrives", description: "Our team arrives fully equipped at your doorstep", color: "bg-accent" }
+              { icon: Users, title: "Team Arrives", description: "Our team arrives fully equipped at your doorstep", color: "bg-accent" },
+              { icon: Star, title: "Professional Service", description: "We clean your car to perfection and share feedback survey", color: "bg-green-500" },
+              { icon: Car, title: "You Drive Happy! 😊", description: "Enjoy your spotlessly clean car and convenience", color: "bg-purple-500" }
             ].map((step, index) => (
               <div key={index} className="text-center">
                 <div className={`w-20 h-20 ${step.color} rounded-full flex items-center justify-center mx-auto mb-6 relative`}>
@@ -344,26 +346,6 @@ export default function Home() {
                 <p className="text-gray-600 text-sm">{step.description}</p>
               </div>
             ))}
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-8 items-center mt-16">
-            <div className="text-center md:text-left">
-              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto md:mx-0 mb-6 relative">
-                <Star className="text-white w-8 h-8" />
-                <span className="absolute -top-2 -right-2 bg-accent text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">4</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Professional Service & Feedback</h3>
-              <p className="text-gray-600 mb-6">We clean your car to perfection and share a feedback survey to ensure your satisfaction.</p>
-            </div>
-            
-            <div className="text-center md:text-right">
-              <div className="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mx-auto md:ml-auto mb-6 relative">
-                <Car className="text-white w-8 h-8" />
-                <span className="absolute -top-2 -right-2 bg-accent text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">5</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">You Drive Happy! 😊</h3>
-              <p className="text-gray-600 mb-6">Enjoy your spotlessly clean car and the convenience of doorstep service.</p>
-            </div>
           </div>
         </div>
       </section>
