@@ -156,7 +156,7 @@ export default function Home() {
 
       {/* Our Services */}
       <section id="services" className="py-20 bg-gray-50 text-center">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Services</h2>
           <p className="text-xl text-gray-600">
             Choose the perfect clean for your car.
@@ -165,7 +165,7 @@ export default function Home() {
         {/* Global car type selector */}
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="text-left">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Select your car type</label>
+            <label className="block text-lg font-semibold text-gray-800 mb-2">Select your car type</label>
             <Select value={carType} onValueChange={(v) => setCarType(v as CarType)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select car type" />
@@ -189,8 +189,16 @@ export default function Home() {
               <div className="mb-2">
                 <span className="text-5xl font-bold">₹{prices.shine[carType]}</span>
               </div>
+              <div className="mt-6">
+                <Button asChild className="bg-white text-green-700 hover:bg-white/90 text-lg py-3 px-6">
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                    <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
+                  </a>
+                </Button>
+              </div>
             </div>
             <CardContent className="p-6">
+              <h4 className="text-left text-sm font-semibold text-gray-700 mb-3">Services included</h4>
               <ul className="space-y-2 mb-6 text-left">
                 {[
                   "Exterior Foam Wash",
@@ -206,11 +214,6 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Button className="w-full bg-secondary hover:bg-secondary/90 text-lg py-3" asChild>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
-                </a>
-              </Button>
             </CardContent>
           </Card>
 
@@ -224,8 +227,16 @@ export default function Home() {
               <div className="mb-2">
                 <span className="text-5xl font-bold">₹{prices.glow[carType]}</span>
               </div>
+              <div className="mt-6">
+                <Button asChild className="bg-white text-green-700 hover:bg-white/90 text-lg py-3 px-6">
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                    <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
+                  </a>
+                </Button>
+              </div>
             </div>
             <CardContent className="p-6">
+              <h4 className="text-left text-sm font-semibold text-gray-700 mb-3">Services included</h4>
               <ul className="space-y-2 mb-6 text-left">
                 {[
                   "Exterior Foam Wash",
@@ -243,11 +254,6 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Button className="w-full bg-secondary hover:bg-secondary/90 text-lg py-3" asChild>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
-                </a>
-              </Button>
             </CardContent>
           </Card>
 
@@ -261,8 +267,16 @@ export default function Home() {
               <div className="mb-2">
                 <span className="text-5xl font-bold">₹{prices.sparkle[carType]}</span>
               </div>
+              <div className="mt-6">
+                <Button asChild className="bg-white text-green-700 hover:bg-white/90 text-lg py-3 px-6">
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                    <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
+                  </a>
+                </Button>
+              </div>
             </div>
             <CardContent className="p-6">
+              <h4 className="text-left text-sm font-semibold text-gray-700 mb-3">Services included</h4>
               <ul className="space-y-2 mb-6 text-left">
                 {[
                   "Exterior Foam Wash",
@@ -285,11 +299,6 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Button className="w-full bg-secondary hover:bg-secondary/90 text-lg py-3" asChild>
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
-                </a>
-              </Button>
             </CardContent>
           </Card>
         </div>
