@@ -12,7 +12,6 @@ import {
   Smartphone,
   Calendar,
   Users,
-  MessageSquare,
   SmileIcon,
   Instagram,
   Facebook,
@@ -22,12 +21,35 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import CruzLogo from "../assets/cruzo.png";
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const whatsappNumber = "+918438347944";
+  const whatsappNumber = "+917200051002";
+  const email = "marketing@cruzo.care";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
+
+  const WhatsAppIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M20.52 3.48A11.89 11.89 0 0 0 12.06 0C5.47.04.17 5.35.19 11.94a11.77 11.77 0 0 0 1.6 5.99L0 24l6.24-1.63a11.95 11.95 0 0 0 5.82 1.49h.01c6.59 0 11.94-5.35 11.94-11.94 0-3.19-1.25-6.19-3.49-8.44Zm-8.46 18.4h-.01a9.98 9.98 0 0 1-5.09-1.4l-.36-.21-3.7.96.99-3.61-.24-.37a9.94 9.94 0 0 1-1.55-5.37C2.1 6.46 6.5 2.06 12.06 2a10 10 0 0 1 10.02 10.02c0 5.54-4.52 9.86-10.02 9.86ZM17.3 14.2c-.29-.15-1.72-.85-1.99-.95-.27-.1-.47-.15-.67.15-.2.29-.77.95-.94 1.14-.17.2-.35.22-.64.07-.29-.14-1.21-.45-2.3-1.44-.85-.76-1.42-1.7-1.59-1.98-.17-.29-.02-.45.13-.6.14-.14.29-.35.43-.52.14-.17.19-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.63-.92-2.24-.24-.57-.49-.49-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.29-1.06 1.04-1.06 2.54s1.08 2.95 1.24 3.16c.15.2 2.12 3.24 5.14 4.54.72.31 1.29.5 1.73.64.73.23 1.4.2 1.93.12.59-.09 1.72-.7 1.96-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.2-.55-.35Z"/>
+    </svg>
+  );
+
+  type CarType = "hatchback" | "sedan" | "suv";
+  const [carType, setCarType] = useState<CarType>("hatchback");
+
+  const prices = {
+    shine: { hatchback: 800, sedan: 1000, suv: 1300 },
+    glow: { hatchback: 1200, sedan: 1500, suv: 1800 },
+    sparkle: { hatchback: 2500, sedan: 3200, suv: 4000 }
+  } as const;
 
   return (
     <div className="min-h-screen bg-white">
@@ -50,7 +72,7 @@ export default function Home() {
             <div className="flex items-center space-x-4">
               <Button asChild className="bg-secondary hover:bg-secondary/90">
                 <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  <MessageSquare className="w-4 h-4 mr-2" />
+                  <WhatsAppIcon className="w-4 h-4 mr-2" />
                   Book Now
                 </a>
               </Button>
@@ -92,7 +114,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-accent hover:bg-accent/90 text-lg px-8 py-4" asChild>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                <MessageSquare className="w-5 h-5 mr-2" /> Book Now - ₹1,599
+                <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
               </a>
             </Button>
             <Button size="lg" variant="outline" className="text-accent border-white hover:bg-white hover:text-primary text-lg px-8 py-4" asChild>
@@ -115,7 +137,7 @@ export default function Home() {
             { icon: HomeIcon, title: "100% Doorstep", description: "We bring water, gear & pros to you.", color: "bg-primary" },
             { icon: Leaf, title: "Eco-Friendly", description: "Water-saving, safe cleaning products.", color: "bg-secondary" },
             { icon: Clock, title: "On-Time", description: "Consistent, reliable service every time.", color: "bg-accent" },
-            { icon: MessageSquare, title: "Instant Booking", description: "WhatsApp booking with confirmation.", color: "bg-green-500" },
+            { icon: WhatsAppIcon, title: "Instant Booking", description: "WhatsApp booking with confirmation.", color: "bg-green-500" },
             { icon: SmileIcon, title: "Hassle-Free", description: "No more waiting, at your regular car spa.", color: "bg-purple-500" },
             { icon: Star, title: "First-Time Deal", description: "Up to 40% off on your first service.", color: "bg-pink-500" }
           ].map((item, idx) => (
@@ -132,39 +154,51 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Our Premium Service */}
+      {/* Our Services */}
       <section id="services" className="py-20 bg-gray-50 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Premium Service</h2>
-          <p className="text-xl text-gray-600 mb-6">
-            Professional doorstep car cleaning at an unbeatable price.
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Services</h2>
+          <p className="text-xl text-gray-600">
+            Choose the perfect clean for your car.
           </p>
-          <div className="inline-flex items-center bg-accent text-white px-6 py-3 rounded-full text-lg font-semibold">
-            <Star className="w-5 h-5 mr-2" /> Introductory Offer!
+        </div>
+        {/* Global car type selector */}
+        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+          <div className="text-left">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Select your car type</label>
+            <Select value={carType} onValueChange={(v) => setCarType(v as CarType)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select car type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="hatchback">Hatchback</SelectItem>
+                <SelectItem value="sedan">Sedan or Compact SUV</SelectItem>
+                <SelectItem value="suv">SUV</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Shine Package */}
           <Card className="relative overflow-hidden hover:shadow-lg border-2 border-accent">
             <div className="bg-gradient-to-r from-secondary to-green-600 text-white p-8 text-center">
-              <h3 className="text-3xl font-bold mb-4">Premium Doorstep Service</h3>
-              <div className="mb-4">
-                <span className="text-5xl font-bold">₹1,599</span>
-                <span className="line-through opacity-75 ml-3">₹2,599</span>
+              <h3 className="text-3xl font-bold mb-2">Shine Package</h3>
+              <div className="mb-1">
+                <span className="text-xl font-semibold">Starts at</span>
               </div>
-              <p className="text-green-100">Complete interior & exterior cleaning</p>
+              <div className="mb-2">
+                <span className="text-5xl font-bold">₹{prices.shine[carType]}</span>
+              </div>
             </div>
             <CardContent className="p-6">
               <ul className="space-y-2 mb-6 text-left">
                 {[
-                  "Exterior wash with premium soap",
-                  "Interior vacuum & sanitization",
-                  "Dashboard & console cleaning",
-                  "Seat conditioning",
-                  "Glass cleaning",
-                  "Wheel & tire shine",
-                  "Air freshener",
-                  "Basic paint protection",
-                  "Microfiber drying"
+                  "Exterior Foam Wash",
+                  "Tire Wash & Polish",
+                  "Alloy Wheel Wash",
+                  "Fiber cleaning & Polish",
+                  "Interior Vacuum",
+                  "Dashboard Wipe cleaning & Polish"
                 ].map((svc, i) => (
                   <li key={i} className="flex items-center">
                     <CheckCircle className="text-secondary w-5 h-5 mr-3" />
@@ -174,7 +208,86 @@ export default function Home() {
               </ul>
               <Button className="w-full bg-secondary hover:bg-secondary/90 text-lg py-3" asChild>
                 <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  <MessageSquare className="w-5 h-5 mr-2" /> Book Now
+                  <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
+                </a>
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Glow Package */}
+          <Card className="relative overflow-hidden hover:shadow-lg border-2 border-accent">
+            <div className="bg-gradient-to-r from-secondary to-green-600 text-white p-8 text-center">
+              <h3 className="text-3xl font-bold mb-2">Glow Package</h3>
+              <div className="mb-1">
+                <span className="text-xl font-semibold">Starts at</span>
+              </div>
+              <div className="mb-2">
+                <span className="text-5xl font-bold">₹{prices.glow[carType]}</span>
+              </div>
+            </div>
+            <CardContent className="p-6">
+              <ul className="space-y-2 mb-6 text-left">
+                {[
+                  "Exterior Foam Wash",
+                  "Tire Wash & Polish",
+                  "Alloy Wheel Wash",
+                  "Engine Room Spray Clean & Dressing",
+                  "Fiber cleaning & Polish",
+                  "Interior Vacuum",
+                  "Dashboard Wipe cleaning & Polish",
+                  "Steam Clean (for Dashboard, AC Vents)"
+                ].map((svc, i) => (
+                  <li key={i} className="flex items-center">
+                    <CheckCircle className="text-secondary w-5 h-5 mr-3" />
+                    <span>{svc}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button className="w-full bg-secondary hover:bg-secondary/90 text-lg py-3" asChild>
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
+                </a>
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Sparkle Package */}
+          <Card className="relative overflow-hidden hover:shadow-lg border-2 border-accent">
+            <div className="bg-gradient-to-r from-secondary to-green-600 text-white p-8 text-center">
+              <h3 className="text-3xl font-bold mb-2">Sparkle Package</h3>
+              <div className="mb-1">
+                <span className="text-xl font-semibold">Starts at</span>
+              </div>
+              <div className="mb-2">
+                <span className="text-5xl font-bold">₹{prices.sparkle[carType]}</span>
+              </div>
+            </div>
+            <CardContent className="p-6">
+              <ul className="space-y-2 mb-6 text-left">
+                {[
+                  "Exterior Foam Wash",
+                  "Tire Wash & Polish",
+                  "Alloy Wheel Wash",
+                  "Engine Room Spray Clean & Dressing",
+                  "Exterior Wax",
+                  "Fiber cleaning & Polish",
+                  "Interior Vacuum",
+                  "Floor Mat Wash (Not fabric type)",
+                  "Dashboard Wipe cleaning & Polish",
+                  "AntiMicrobal Sanitization for Dashboard",
+                  "Leather Seat Foam Clean",
+                  "AC Vent foam Sanitization (Spray Foam)",
+                  "Steam Clean (for Dashboard, AC Vents)"
+                ].map((svc, i) => (
+                  <li key={i} className="flex items-center">
+                    <CheckCircle className="text-secondary w-5 h-5 mr-3" />
+                    <span>{svc}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button className="w-full bg-secondary hover:bg-secondary/90 text-lg py-3" asChild>
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon className="w-5 h-5 mr-2" /> Book Now
                 </a>
               </Button>
             </CardContent>
@@ -272,9 +385,9 @@ export default function Home() {
           <p className="text-xl mb-6">Book now or send inquiries</p>
           <div className="flex flex-col md:flex-row justify-center gap-6">
             {[
-              { icon: MessageSquare, label: "WhatsApp", link: whatsappLink },
+              { icon: WhatsAppIcon, label: "WhatsApp", link: whatsappLink },
               { icon: Phone, label: "Call Us", link: `tel:${whatsappNumber}` },
-              { icon: Mail, label: "Email", link: "mailto:hello@cruzo.care" }
+              { icon: Mail, label: "Email", link: `mailto:${email}` }
             ].map((c, i) => (
               <Button key={i} asChild className="bg-secondary hover:bg-secondary/90 px-6 py-3">
                 <a href={c.link} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
@@ -322,7 +435,7 @@ export default function Home() {
           <div>
             <h4 className="font-semibold mb-3">Contact Info</h4>
             <p className="text-sm"><Phone className="inline w-4 h-4 text-primary mr-1" />{whatsappNumber}</p>
-            <p className="text-sm"><Mail className="inline w-4 h-4 text-primary mr-1" />hello@cruzo.care</p>
+            <p className="text-sm"><Mail className="inline w-4 h-4 text-primary mr-1" />{email}</p>
             <p className="text-sm"><MapPin className="inline w-4 h-4 text-primary mr-1" />Chennai, Tamil Nadu</p>
           </div>
         </div>
@@ -335,7 +448,7 @@ export default function Home() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button asChild className="rounded-full p-3 bg-green-500 hover:bg-green-600 shadow-lg">
           <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-            <MessageSquare className="w-6 h-6 text-white" />
+            <WhatsAppIcon className="w-6 h-6 text-white" />
           </a>
         </Button>
       </div>
