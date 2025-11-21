@@ -139,7 +139,7 @@ export default function Home() {
             { icon: Clock, title: "On-Time", description: "Consistent, reliable service every time.", color: "bg-accent" },
             { icon: WhatsAppIcon, title: "Instant Booking", description: "WhatsApp booking with confirmation.", color: "bg-green-500" },
             { icon: SmileIcon, title: "Hassle-Free", description: "No more waiting, at your regular car spa.", color: "bg-purple-500" },
-            { icon: Star, title: "First-Time Deal", description: "Up to 40% off on your first service.", color: "bg-pink-500" }
+            { icon: Star, title: "First-Time Deal", description: "Up to 20% off on your first service.", color: "bg-pink-500" }
           ].map((item, idx) => (
             <Card key={idx} className="bg-gray-50 hover:shadow-md p-6">
               <CardContent className="text-center">
